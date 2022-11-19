@@ -25,9 +25,9 @@ class GildedRoseTest extends TestCase
     }
 
     /**
-    * @return string[][]
+    * @return \Generator
     */
-    public function provideItemData()
+    public function provideItemData() : \Generator
     {
         yield 'ConjuredPerishableItem : Quality goes down daily by 2' => [
             ['Conjured Mana Cake', 10, 20],
