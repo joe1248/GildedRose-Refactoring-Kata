@@ -29,6 +29,14 @@ class GildedRoseTest extends TestCase
     */
     public function provideItemData()
     {
+        yield 'ConjuredPerishableItem : Quality goes down daily by 2' => [
+            ['Conjured Mana Cake', 10, 20],
+            'Conjured Mana Cake, 9, 18'
+        ];
+        yield 'ConjuredPerishableItem : Once the sell by date has passed, Quality degrades twice as fast, ie by 4' => [
+            ['Conjured Mana Cake', 0, 10],
+            'Conjured Mana Cake, -1, 6'
+        ];
         yield 'PerishableItem : Quality goes down' => [
             ['+5 Dexterity Vest', 10, 20],
             '+5 Dexterity Vest, 9, 19'
