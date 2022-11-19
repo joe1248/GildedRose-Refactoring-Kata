@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
+use GildedRose\AgeableItems\ConjuredPerishableItem;
 use GildedRose\AgeableItems\EventItem;
 use GildedRose\AgeableItems\PerishableItem;
 use GildedRose\AgeableItems\RewardingItem;
@@ -46,9 +47,15 @@ final class GildedRose
                 $ageableItem = new EventItem($item);
                 break;
 
+            // Conjured Perishable items
+            case 'Conjured Mana Cake':
+                $ageableItem = new ConjuredPerishableItem($item);
+                break;
+
             // Perishable items
             default:
                 $ageableItem = new PerishableItem($item);
+                break;
         }
         $item->quality += $ageableItem->calculateQualityDiff();
         $item->sell_in += $ageableItem->calculateSellInDiff();
