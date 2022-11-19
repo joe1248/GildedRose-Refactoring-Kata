@@ -38,14 +38,14 @@ class GildedRoseTest extends TestCase
             '+5 Dexterity Vest, -1, 8'
         ];
         yield 'PerishableItem: The Quality of an item is never negative' => [
-            ['+5 Dexterity Vest', 10, 0],
-            '+5 Dexterity Vest, 9, 0'
+            ['+5 Dexterity Vest', -2, 1],
+            '+5 Dexterity Vest, -3, 0'
         ];
-        yield 'RewardingItem: "Aged Brie" actually increases in Quality the older it gets' => [
+        yield 'RewardingItem: increases in quality the older it gets' => [
             ['Aged Brie', 2, 0],
             'Aged Brie, 1, 1'
         ];
-        yield 'RewardingItem: "Aged Brie" quality increases twice as fast after sell-by date' => [
+        yield 'RewardingItem: quality increases twice as fast after sell-by date' => [
             ['Aged Brie', 0, 2],
             'Aged Brie, -1, 4'
         ];

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
+use GildedRose\AgeableItems\EventItem;
+use GildedRose\AgeableItems\PerishableItem;
+use GildedRose\AgeableItems\RewardingItem;
+use GildedRose\AgeableItems\StableItem;
+
 final class GildedRose
 {
     /**
@@ -19,51 +24,41 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                if ($item->quality > 0) {
-                    if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                        $item->quality = $item->quality - 1;
-                    }
-                }
-            } else {
-                if ($item->quality < 50) {
-                    $item->quality = $item->quality + 1;
-                    if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->sell_in < 11) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                        if ($item->sell_in < 6) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                $item->sell_in = $item->sell_in - 1;
-            }
-
-            if ($item->sell_in < 0) {
-                if ($item->name != 'Aged Brie') {
-                    if ($item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->quality > 0) {
-                            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                                $item->quality = $item->quality - 1;
-                            }
-                        }
-                    } else {
-                        $item->quality = $item->quality - $item->quality;
-                    }
-                } else {
-                    if ($item->quality < 50) {
-                        $item->quality = $item->quality + 1;
-                    }
-                }
-            }
+            $item = $this->updateQualityOfOneItem($item);
         }
+    }
+
+    private function updateQualityOfOneItem(Item $item): Item
+    {
+        switch($item->name) {
+            // Stable items
+            case 'Sulfuras, Hand of Ragnaros':
+                
+                return $item;
+
+            // Rewarding items
+            case 'Aged Brie':
+                $ageableItem = new RewardingItem($item);
+                break;
+
+            // Event items
+            case 'Backstage passes to a TAFKAL80ETC concert':
+                $ageableItem = new EventItem($item);
+                break;
+
+            // Perishable items
+            default:
+                $ageableItem = new PerishableItem($item);
+        }
+        $item->quality += $ageableItem->calculateQualityDiff();
+        $item->sell_in += $ageableItem->calculateSellInDiff();
+
+        // The Quality of an item is never negative
+        $item->quality = max(0, $item->quality);
+
+        // The Quality of an item is above 50
+        $item->quality = min(50, $item->quality);
+    
+        return $item;
     }
 }
