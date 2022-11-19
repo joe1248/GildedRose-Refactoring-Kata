@@ -53,6 +53,29 @@ class GildedRoseTest extends TestCase
             ['Aged Brie', -24, 50],
             'Aged Brie, -25, 50'
         ];
-        
+        yield 'Stable item: Sulfuras never has to be sold or decreases in Quality' => [
+            ['Sulfuras, Hand of Ragnaros', -1, 80],
+            'Sulfuras, Hand of Ragnaros, -1, 80'
+        ];
+        yield 'Event item: increases in Quality as its SellIn value approaches' => [
+            ['Backstage passes to a TAFKAL80ETC concert', 15, 20],
+            'Backstage passes to a TAFKAL80ETC concert, 14, 21'
+        ];
+        yield 'Event item: Quality increases by 2 when there are 10 days or less' => [
+            ['Backstage passes to a TAFKAL80ETC concert', 10, 25],
+            'Backstage passes to a TAFKAL80ETC concert, 9, 27'
+        ];
+        yield 'Event item: Quality increases by 3 when there are 5 days or less' => [
+            ['Backstage passes to a TAFKAL80ETC concert', 5, 35],
+            'Backstage passes to a TAFKAL80ETC concert, 4, 38'
+        ];
+        yield 'Event item: Quality never increase above 50' => [
+            ['Backstage passes to a TAFKAL80ETC concert', 5, 50],
+            'Backstage passes to a TAFKAL80ETC concert, 4, 50'
+        ];
+        yield 'Event item: Quality drops to 0 after the concert' => [
+            ['Backstage passes to a TAFKAL80ETC concert', 0, 50],
+            'Backstage passes to a TAFKAL80ETC concert, -1, 0'
+        ];
     }
 }
