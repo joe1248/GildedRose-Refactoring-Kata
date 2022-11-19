@@ -8,7 +8,6 @@ use GildedRose\AgeableItems\ConjuredPerishableItem;
 use GildedRose\AgeableItems\EventItem;
 use GildedRose\AgeableItems\PerishableItem;
 use GildedRose\AgeableItems\RewardingItem;
-use GildedRose\AgeableItems\StableItem;
 
 final class GildedRose
 {
